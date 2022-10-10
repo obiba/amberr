@@ -1,0 +1,24 @@
+Package: amberr
+Type: Package
+Title: 'Amber' Electronic Data Capture Client
+Version: 0.1.0
+Authors@R: 
+    c(person(given = "Yannick",
+             family = "Marcon",
+             role = c("aut", "cre"),
+             email = "yannick.marcon@obiba.org",
+             comment = c(ORCID = "0000-0003-0138-2023")),
+      person("OBiBa group",
+             role="cph",
+             email="info@obiba.org"))
+Depends: 
+    httr
+Imports:
+    jsonlite
+Description: 'Amber' is a server application for capturing electronic data records.
+    Rich forms are used to collect data. This 'Amber' client allows
+    to perform data extraction for reporting purposes.
+License: GPL-3
+BugReports: https://github.com/obiba/amberr/issues/
+RoxygenNote: 7.2.1
+Encoding: UTF-8
