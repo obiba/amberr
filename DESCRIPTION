@@ -14,7 +14,8 @@ Authors@R:
 Depends: 
     httr
 Imports:
-    jsonlite
+    jsonlite,
+    dplyr
 Description: 'Amber' is a server application for capturing electronic data records.
     Rich forms are used to collect data. This 'Amber' client allows
     to perform data extraction for reporting purposes.

@@ -11,12 +11,8 @@ R package for accessing Amber web services:
 Requires R 3.x.
 
 ```
-# Install dependencies
-if (!require("httr")) {
-  install.package(c("httr"), dependencies=TRUE)
-}
 # Install from source code repository
-devtools::install_github("obiba/amberr")
+remotes::install_github("obiba/amberr")
 ```
 
 ## Usage
@@ -29,5 +25,6 @@ Steps:
 
 Examples: 
 
+* [study and user queries](https://github.com/obiba/amberr/blob/master/inst/examples/amber-query.R)
 * [export case reports](https://github.com/obiba/amberr/blob/master/inst/examples/amber-export.R)
 

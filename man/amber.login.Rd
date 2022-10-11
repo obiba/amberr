@@ -8,7 +8,7 @@ amber.login(
   username = getOption("amber.username", "anonymous"),
   password = getOption("amber.password", "password"),
   url = getOption("amber.url"),
-  opts = getOption("mica.opts", list())
+  opts = getOption("amber.opts", list())
 )
 }
 \arguments{
