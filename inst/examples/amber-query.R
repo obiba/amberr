@@ -123,7 +123,7 @@ table <- tables$`Adult trauma-7`
 
 # Decorate the data with the dictionary
 data <- dictionary.apply(table$data, variables = table$dictionary$variables, categories = table$dictionary$categories)
-data$TRANSFER.FROM
+data$MECHANISM.INJURY_CAUSE
 
 if (!opal.project_exists(o, "amber")) {
   opal.project_create(o, project = "amber", database = TRUE)
