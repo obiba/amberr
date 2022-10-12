@@ -137,12 +137,3 @@ print.amber <- function(x, ...) {
   }
   verbose
 }
-
-#' Display search result metrics
-#' @keywords internal
-.reportListMetrics <- function(results){
-  if (!is.null(results) && !is.null(results$total)) {
-    message("results: ", length(results$data), "/", results$total, " from: ", results$skip, " limit: ", results$limit)
-  }
-}
-

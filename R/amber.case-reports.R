@@ -108,10 +108,10 @@ amber.case_report_form <- function(amber, form, revision = NULL) {
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
-#' amber.case_report_forms(a, form="61e69a22fea2df2f3108b508", from=0, limit=10)
-#' amber.case_report_forms(a, form="Adult trauma")
-#' amber.case_report_forms(a, study="Trauma Registry", query = list(revision = 1))
-#' amber.case_report_forms(a, query = list(revision = 1))
+#' amber.case_report_export(a, form="61e69a22fea2df2f3108b508", from=0, limit=10)
+#' amber.case_report_export(a, form="Adult trauma", query = list(revision = 7))
+#' amber.case_report_export(a, study="Trauma Registry")
+#' amber.case_report_export(a, query = list(revision = 1))
 #' amber.logout(a)
 #' }
 #' @export
@@ -123,7 +123,11 @@ amber.case_report_export <- function(amber, study = NULL, form = NULL, query=lis
   }
   formObj <- NULL
   if (!is.null(form)) {
-    formObj <- amber.form(amber, form)
+    q <- list()
+    if (!is.null(studyObj)) {
+      q$study <- studyObj$`_id`
+    }
+    formObj <- amber.form(amber, form, query = q)
   }
   query$`$skip` <- from
   query$`$limit` <- limit
@@ -141,7 +145,20 @@ amber.case_report_export <- function(amber, study = NULL, form = NULL, query=lis
       # TODO decorate tibble with dictionary
       data <- res[[name]]$data
       variables <- res[[name]]$variables
-      out[[name]] <- dplyr::bind_rows(data)
+
+      tbl <- NULL
+      for (values in data) {
+        row <- list(`_id` = values$`_id`)
+        for (variable in variables) {
+          row[[variable$name]] <- .unlist(values[[variable$name]])
+        }
+        tbl <- dplyr::bind_rows(tbl, row)
+      }
+
+      out[[name]] <- list(
+        dictionary = .makeDictionary(variables),
+        data = tbl
+      )
     }
     out
   } else {

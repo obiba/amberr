@@ -11,7 +11,7 @@ amber.case_report_export(
   query = list(),
   from = 0,
   limit = 100,
-  df = FALSE
+  df = TRUE
 )
 }
 \arguments{
@@ -35,10 +35,10 @@ Get the case reports of one or several form(s).
 \examples{
 \dontrun{
 a <- amber.login("https://amber-demo.obiba.org")
-amber.case_report_forms(a, form="61e69a22fea2df2f3108b508", from=0, limit=10)
-amber.case_report_forms(a, form="Adult trauma")
-amber.case_report_forms(a, study="Trauma Registry", query = list(revision = 1))
-amber.case_report_forms(a, query = list(revision = 1))
+amber.case_report_export(a, form="61e69a22fea2df2f3108b508", from=0, limit=10)
+amber.case_report_export(a, form="Adult trauma", query = list(revision = 7))
+amber.case_report_export(a, study="Trauma Registry")
+amber.case_report_export(a, query = list(revision = 1))
 amber.logout(a)
 }
 }

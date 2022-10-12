@@ -45,6 +45,7 @@ amber.forms <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
 #' @family studies functions
 #' @param amber A Amber object
 #' @param id Form's name or identifier
+#' @param query The search query, to desambiguate form lookup by name
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
@@ -53,8 +54,7 @@ amber.forms <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
 #' amber.logout(a)
 #' }
 #' @export
-amber.form <- function(amber, id) {
-  query <- list()
+amber.form <- function(amber, id, query=list()) {
   if (regexpr("^[a-zA-Z]+", id) == 1) {
     query$name <- id
   } else {
