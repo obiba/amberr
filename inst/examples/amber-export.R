@@ -15,6 +15,8 @@ tables <- amber.case_report_export(a, from = "2022-01-12 00:00", to = "2022-02-1
 amber.case_report_export(a, pId = "1231")
 # Find all case reports having their identifier matching a regular expression
 amber.case_report_export(a, query = list(`data._id[$search]` = "^12"))
+# Find all case reports which form data is matching some value (will not work if the data are encrypted in the database)
+amber.case_report_export(a, query = list(data.PATIENT.ORIGIN_REGION = "xyz"))
 # Export records collected with a study's form in a specific version
 amber.case_report_export(a, study = "Trauma Registry", form = "Adult trauma", query = list(revision = 6))
 # Export records collected with a study's form in all versions used

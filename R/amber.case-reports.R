@@ -124,6 +124,10 @@ amber.case_report_form <- function(amber, form, revision = NULL) {
 #' # Find all case reports having their identifier matching a regular expression
 #' amber.case_report_export(a, query = list(`data._id[$search]` = "^12"))
 #'
+#' # Find all case reports which form data is equal to some value
+#' # (will not work if the data are encrypted in the database)
+#' amber.case_report_export(a, query = list(data.PATIENT.ORIGIN_REGION = "xyz"))
+#'
 #' # Export records collected with a study's form in a specific version
 #' amber.case_report_export(a,
 #'   study = "Trauma Registry",
