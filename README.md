@@ -1,14 +1,17 @@
 # Amber R
 
-[![Build Status](https://travis-ci.com/obiba/amberr.svg?branch=master)](https://travis-ci.com/obiba/amberr)
+[![Build Status](https://app.travis-ci.com/obiba/amberr.svg?branch=master)](https://app.travis-ci.com/github/obiba/amberr)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/amberr)](https://cran.r-project.org/package=amberr)
 
 R package for accessing Amber web services:
-* extract case reports
+
+* list users and groups
+* list studies, forms, form revisions and case report forms
+* extract case report records with full data dictionary
 
 ## Installation
 
-Requires R 3.x.
+Requires R >3.x.
 
 ```
 # Install from source code repository
@@ -26,5 +29,5 @@ Steps:
 Examples: 
 
 * [study and user queries](https://github.com/obiba/amberr/blob/master/inst/examples/amber-query.R)
-* [export case reports](https://github.com/obiba/amberr/blob/master/inst/examples/amber-export.R)
+* [export case report records](https://github.com/obiba/amberr/blob/master/inst/examples/amber-export.R) and save them in [Opal](https://www.obiba.org/pages/products/opal/) for further analysis
 

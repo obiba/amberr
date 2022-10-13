@@ -2,7 +2,7 @@
 % Please edit documentation in R/amber.case-reports.R
 \name{amber.case_report_export}
 \alias{amber.case_report_export}
-\title{Get the case report forms}
+\title{Get the case report records}
 \usage{
 amber.case_report_export(
   amber,
@@ -39,7 +39,7 @@ amber.case_report_export(
 \item{df}{Return a data.frame (default is TRUE)}
 }
 \description{
-Get the case reports of one or several form(s).
+Get the case report records of one or several form(s).
 }
 \examples{
 \dontrun{

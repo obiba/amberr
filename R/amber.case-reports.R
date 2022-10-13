@@ -94,9 +94,9 @@ amber.case_report_form <- function(amber, form, revision = NULL) {
   }
 }
 
-#' Get the case reports of one or several form(s).
+#' Get the case report records of one or several form(s).
 #'
-#' @title Get the case report forms
+#' @title Get the case report records
 #' @family studies functions
 #' @param amber A Amber object
 #' @param study Study identifier (name or id), optional.
