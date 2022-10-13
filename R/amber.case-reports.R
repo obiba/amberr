@@ -111,10 +111,41 @@ amber.case_report_form <- function(amber, form, revision = NULL) {
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
-#' amber.case_report_export(a, form="61e69a22fea2df2f3108b508", skip=0, limit=10)
-#' amber.case_report_export(a, form="Adult trauma", query = list(revision = 7))
-#' amber.case_report_export(a, study="Trauma Registry")
-#' amber.case_report_export(a, query = list(revision = 1))
+#'
+#' # Find all case reports
+#' amber.case_report_export(a)
+#'
+#' # Find all case reports in a range of time
+#' amber.case_report_export(a, from = "2022-01-12 00:00", to = "2022-02-13")
+#'
+#' # Find all case reports for a specific participant/patient identifier
+#' amber.case_report_export(a, pId = "1231")
+#'
+#' # Find all case reports having their identifier matching a regular expression
+#' amber.case_report_export(a, query = list(`data._id[$search]` = "^12"))
+#'
+#' # Export records collected with a study's form in a specific version
+#' amber.case_report_export(a,
+#'   study = "Trauma Registry",
+#'   form = "Adult trauma",
+#'   query = list(revision = 6))
+#'
+#' # Export records collected with a study's form in all versions used
+#' tables <- amber.case_report_export(a,
+#'   study = "Trauma Registry",
+#'   form = "Adult trauma")
+#'
+#' # Result contains both data and dictionary
+#' tables
+#'
+#' # Tables are named with the <form name>-<revision> pattern
+#' names(tables)
+#'
+#' # Merge datasets from different versions if relevant
+#' dplyr::bind_rows(lapply(tables, function (t) {
+#'   t$data
+#' }))
+#'
 #' amber.logout(a)
 #' }
 #' @export

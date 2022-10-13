@@ -98,8 +98,10 @@ amber.case_report_form(a, form = "image", revision = NULL)
 tables <- amber.case_report_export(a)
 # Find all case reports in a range of time
 tables <- amber.case_report_export(a, from = "2022-01-12 00:00", to = "2022-02-13")
-# Find all case reports for a participant/patient identifier
+# Find all case reports for a specific participant/patient identifier
 amber.case_report_export(a, pId = "1231")
+# Find all case reports having their identifier matching a regular expression
+amber.case_report_export(a, query = list(`data._id[$search]` = "^12"))
 # Export records collected with a study's form in a specific version
 amber.case_report_export(a, study = "Trauma Registry", form = "Adult trauma", query = list(revision = 6))
 # Export records collected with a study's form in all versions used
