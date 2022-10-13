@@ -3,6 +3,7 @@
 #' @title Get the forms
 #' @family studies functions
 #' @param amber A Amber object
+#' @param study Study name or identifier, optional
 #' @param query The search query
 #' @param from From item
 #' @param limit Max number of items
@@ -10,12 +11,21 @@
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
-#' amber.forms(a, query=list(study="617e50749f542d5771d448ad"), from=0, limit=10)
+#' amber.forms(a)
+#' amber.forms(a, study="Trauma Registry", from=0, limit=10)
 #' amber.logout(a)
 #' }
 #' @export
 #' @import dplyr
-amber.forms <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
+amber.forms <- function(amber, study = NULL, query=list(), from=0, limit=100, df = TRUE) {
+  if (!is.null(study)) {
+    studyObj <- amber.study(amber, study)
+    if (!is.null(studyObj)) {
+      query$study <- studyObj$`_id`
+    } else {
+      stop("No such study with ID or name: ", study, call. = FALSE)
+    }
+  }
   query$`$skip` <- from
   query$`$limit` <- limit
   res <- .get(amber, "form", query = query)
@@ -45,6 +55,7 @@ amber.forms <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
 #' @family studies functions
 #' @param amber A Amber object
 #' @param id Form's name or identifier
+#' @param study Study name or identifier, optional
 #' @param query The search query, to desambiguate form lookup by name
 #' @examples
 #' \dontrun{
@@ -54,7 +65,15 @@ amber.forms <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
 #' amber.logout(a)
 #' }
 #' @export
-amber.form <- function(amber, id, query=list()) {
+amber.form <- function(amber, id, study = NULL, query=list()) {
+  if (!is.null(study)) {
+    studyObj <- amber.study(amber, study)
+    if (!is.null(studyObj)) {
+      query$study <- studyObj$`_id`
+    } else {
+      stop("No such study with ID or name: ", study, call. = FALSE)
+    }
+  }
   if (regexpr("^[a-zA-Z]+", id) == 1) {
     query$name <- id
   } else {
@@ -62,6 +81,8 @@ amber.form <- function(amber, id, query=list()) {
   }
   res <- .get(amber, "form", query = query)
   if (length(res$data) > 0) {
+    if (length(res$data) > 1)
+      warning("There are more than one form matching the criteria", immediate. = TRUE, call. = FALSE)
     res$data[[1]]
   } else {
     NULL
@@ -91,22 +112,24 @@ amber.form <- function(amber, id, query=list()) {
 #' @export
 #' @import dplyr
 amber.form_revisions <- function(amber, study = NULL, form = NULL, query=list(), from=0, limit=100, df = TRUE) {
-  studyObj <- NULL
   if (!is.null(study)) {
     studyObj <- amber.study(amber, study)
+    if (!is.null(studyObj)) {
+      query$study <- studyObj$`_id`
+    } else {
+      stop("No such study with ID or name: ", study, call. = FALSE)
+    }
   }
-  formObj <- NULL
   if (!is.null(form)) {
-    formObj <- amber.form(amber, form)
+    formObj <- amber.form(amber, form, study = study)
+    if (!is.null(formObj)) {
+      query$form <- formObj$`_id`
+    } else {
+      stop("No such form with ID or name: ", form, call. = FALSE)
+    }
   }
   query$`$skip` <- from
   query$`$limit` <- limit
-  if (!is.null(studyObj)) {
-    query$study <- studyObj$`_id`
-  }
-  if (!is.null(formObj)) {
-    query$form <- formObj$`_id`
-  }
   res <- .get(amber, "form-revision", query = query)
   .reportListMetrics(res)
 
@@ -136,6 +159,7 @@ amber.form_revisions <- function(amber, study = NULL, form = NULL, query=list(),
 #' @param amber A Amber object
 #' @param form Form's name or identifier
 #' @param revision Revision number
+#' @param study Study identifier (name or id), optional.
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
@@ -144,8 +168,8 @@ amber.form_revisions <- function(amber, study = NULL, form = NULL, query=list(),
 #' amber.logout(a)
 #' }
 #' @export
-amber.form_revision <- function(amber, form, revision) {
-  formObj <- amber.form(amber, form)
+amber.form_revision <- function(amber, form, revision, study = NULL) {
+  formObj <- amber.form(amber, form, study = study)
   if (!is.null(formObj)) {
     query <- list(
       form = formObj$`_id`,
@@ -153,12 +177,14 @@ amber.form_revision <- function(amber, form, revision) {
       )
     res <- .get(amber, "form-revision", query = query)
     if (length(res$data) > 0) {
+      if (length(res$data) > 1)
+        warning("There are more than one form revision matching the criteria", immediate. = TRUE, call. = FALSE)
       res$data[[1]]
     } else {
       NULL
     }
   } else {
-    NULL
+    stop("No such form with ID or name: ", form, call. = FALSE)
   }
 }
 

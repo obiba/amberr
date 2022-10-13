@@ -117,26 +117,24 @@ amber.case_report_form <- function(amber, form, revision = NULL) {
 #' @export
 #' @import dplyr
 amber.case_report_export <- function(amber, study = NULL, form = NULL, query=list(), from=0, limit=100, df = TRUE) {
-  studyObj <- NULL
   if (!is.null(study)) {
     studyObj <- amber.study(amber, study)
-  }
-  formObj <- NULL
-  if (!is.null(form)) {
-    q <- list()
     if (!is.null(studyObj)) {
-      q$study <- studyObj$`_id`
+      query$study <- studyObj$`_id`
+    } else {
+      stop("No such study with ID or name: ", study, call. = FALSE)
     }
-    formObj <- amber.form(amber, form, query = q)
+  }
+  if (!is.null(form)) {
+    formObj <- amber.form(amber, form, study = study)
+    if (!is.null(formObj)) {
+      query$form <- formObj$`_id`
+    } else {
+      stop("No such form with ID or name: ", form, call. = FALSE)
+    }
   }
   query$`$skip` <- from
   query$`$limit` <- limit
-  if (!is.null(studyObj)) {
-    query$study <- studyObj$`_id`
-  }
-  if (!is.null(formObj)) {
-    query$form <- formObj$`_id`
-  }
   res <- .get(amber, "case-report-export", query = query)
 
   if (df) {

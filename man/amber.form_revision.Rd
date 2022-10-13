@@ -4,7 +4,7 @@
 \alias{amber.form_revision}
 \title{Get a form}
 \usage{
-amber.form_revision(amber, form, revision)
+amber.form_revision(amber, form, revision, study = NULL)
 }
 \arguments{
 \item{amber}{A Amber object}
@@ -12,6 +12,8 @@ amber.form_revision(amber, form, revision)
 \item{form}{Form's name or identifier}
 
 \item{revision}{Revision number}
+
+\item{study}{Study identifier (name or id), optional.}
 }
 \description{
 Get a form revision by its form name or identifier and its revision number.

@@ -4,12 +4,14 @@
 \alias{amber.form}
 \title{Get a form}
 \usage{
-amber.form(amber, id, query = list())
+amber.form(amber, id, study = NULL, query = list())
 }
 \arguments{
 \item{amber}{A Amber object}
 
 \item{id}{Form's name or identifier}
+
+\item{study}{Study name or identifier, optional}
 
 \item{query}{The search query, to desambiguate form lookup by name}
 }

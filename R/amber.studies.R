@@ -62,6 +62,8 @@ amber.study <- function(amber, id) {
   }
   res <- .get(amber, "study", query = query)
   if (length(res$data) > 0) {
+    if (length(res$data) > 1)
+      warning("There are more than one study matching the criteria", immediate. = TRUE, call. = FALSE)
     res$data[[1]]
   } else {
     NULL

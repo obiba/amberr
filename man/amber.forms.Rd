@@ -4,10 +4,19 @@
 \alias{amber.forms}
 \title{Get the forms}
 \usage{
-amber.forms(amber, query = list(), from = 0, limit = 100, df = TRUE)
+amber.forms(
+  amber,
+  study = NULL,
+  query = list(),
+  from = 0,
+  limit = 100,
+  df = TRUE
+)
 }
 \arguments{
 \item{amber}{A Amber object}
+
+\item{study}{Study name or identifier, optional}
 
 \item{query}{The search query}
 
@@ -23,7 +32,8 @@ Get the forms
 \examples{
 \dontrun{
 a <- amber.login("https://amber-demo.obiba.org")
-amber.forms(a, query=list(study="617e50749f542d5771d448ad"), from=0, limit=10)
+amber.forms(a)
+amber.forms(a, study="Trauma Registry", from=0, limit=10)
 amber.logout(a)
 }
 }

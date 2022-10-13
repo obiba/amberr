@@ -56,7 +56,7 @@ amber.studies(a, query = list(createdBy = amber.user(a, id = "admin@obiba.org")$
 # Find all forms
 amber.forms(a)
 # Find forms from a study
-amber.forms(a, query = list(study = "617e50749f542d5771d448ad"))
+amber.forms(a, study = "Trauma Registry")
 # Find first form with given name
 amber.form(a, id = "Adult trauma")
 # Find form with specified ID
@@ -66,12 +66,12 @@ amber.form(a, id = "61e69a22fea2df2f3108b508")
 # Form revisions
 # are revisions of a study's form
 #
-# Find all revisions of a form, by its ID
-amber.form_revisions(a, form = "61e69a22fea2df2f3108b508")
+# Find all form revisions
+amber.form_revisions(a)
 # Find all revisions of a form, by its name
 amber.form_revisions(a, form = "Adult trauma")
 # Find revisions of each study's forms, by the study ID
-amber.form_revisions(a, study = "617e50749f542d5771d448ad", limit = 10)
+amber.form_revisions(a, study = "Trauma Registry", limit = 10)
 # Find revisions of each study's forms, by the study name
 amber.form_revisions(a, study = "Trauma Registry", limit = 100)
 # Find all form revisions with a specific revision number
@@ -81,8 +81,6 @@ amber.form_revisions(a, query = list(revision = 1))
 # Case report forms
 # are based on a specific or the last revision of a study's form
 #
-# Find CRFs based on a form, whatever the revision, by the form ID
-amber.case_report_forms(a, form = "61e69a22fea2df2f3108b508")
 # Find CRFs based on a form, whatever the revision, by the form name
 amber.case_report_forms(a, form = "Adult trauma")
 # Find CRFs in a study, by the study name
@@ -96,6 +94,8 @@ amber.case_report_form(a, form = "image", revision = NULL)
 # Case report records
 # are collected with a study's form revision and are exported along the data dictionary
 #
+# Find all case reports
+amber.case_report_export(a)
 # Export records collected with a study's form in a specific version
 amber.case_report_export(a, study = "Trauma Registry", form = "Adult trauma", query = list(revision = 6))
 # Export records collected with a study's form in all versions used
@@ -115,8 +115,10 @@ amber.logout(a)
 # Save case report records in Opal
 #
 library(opalr)
+
+# Start Opal session
 o <- opal.login(username = "administrator", password = "password", url = "https://opal-demo.obiba.org")
-# o <- opal.login(username = "administrator", password = "password", url = "http://localhost:8080")
+#o <- opal.login(username = "administrator", password = "password", url = "http://localhost:8080")
 
 # Work on a specific table
 table <- tables$`Adult trauma-7`
@@ -124,18 +126,19 @@ table <- tables$`Adult trauma-7`
 # Decorate the data with the dictionary
 data <- dictionary.apply(table$data, variables = table$dictionary$variables, categories = table$dictionary$categories)
 data$MECHANISM.INJURY_CAUSE
+attributes(data$MECHANISM.INJURY_CAUSE)
 
 if (!opal.project_exists(o, "amber")) {
   opal.project_create(o, project = "amber", database = TRUE)
 }
 # Save table in Opal
-opal.table_save(o, data, "amber", "Adult_trauma-7", id.name = "_id", overwrite = TRUE, force = TRUE)
+opal.table_save(o, data, "amber", "Adult trauma-7", id.name = "_id", overwrite = TRUE, force = TRUE)
 
 # [optional] Update dictionary in Opal
-opal.table_dictionary_update(o, "amber", "Adult_trauma-7", table$dictionary$variables, categories = table$dictionary$categories)
+opal.table_dictionary_update(o, "amber", "Adult trauma-7", table$dictionary$variables, categories = table$dictionary$categories)
 
 # Get back the table from Opal
-opal.table_get(o, project = "amber", "Adult_trauma-7")
+opal.table_get(o, project = "amber", "Adult trauma-7")
 
 # End Opal session
 opal.logout(o)

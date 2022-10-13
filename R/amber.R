@@ -104,7 +104,7 @@ print.amber <- function(x, ...) {
 #' @keywords internal
 .get <- function(amber, ..., query=list()) {
   r <- GET(.url(amber, ...), config = amber$httrConfig, httr::add_headers(Authorization = .authzHeader(amber)), query=query, .verbose())
-  content(r)
+  .handleResponse(r)
 }
 
 #' Issues a POST form request to Amber for the specified resource
@@ -112,12 +112,23 @@ print.amber <- function(x, ...) {
 #' @keywords internal
 .post <- function(amber, ..., query=list()) {
   r <- POST(.url(amber, ...), config = amber$httrConfig, httr::add_headers(Authorization = .authzHeader(amber)), body=query, encode=c("form"), .verbose())
-  content(r)
+  .handleResponse(r)
+}
+
+#' @keywords internal
+.handleResponse <- function(response) {
+  ct <- content(response)
+  if (httr::status_code(response) >= 400) {
+    stop(ifelse(is.null(ct$message), httr::http_status(response), ct$message), call. = FALSE)
+  }
+  ct
 }
 
 #' Make the Authorization header value.
 #' @keywords internal
 .authzHeader <- function(amber) {
+  if (is.null(amber$auth) || is.null(amber$auth$accessToken))
+    stop("User is not authenticated", call. = FALSE)
   paste0("Bearer ", amber$auth$accessToken)
 }
 
