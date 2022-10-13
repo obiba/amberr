@@ -183,13 +183,14 @@ amber.case_report_export <- function(amber, study = NULL, form = NULL, from = NU
   query$`$skip` <- skip
   query$`$limit` <- limit
   res <- .get(amber, "case-report-export", query = query)
-  message("tables: ", length(names(res)), " skip: ", skip, " limit: ", limit)
+  .reportListMetrics(res)
 
   if (df) {
     out <- list()
-    for (name in names(res)) {
-      data <- res[[name]]$data
-      variables <- res[[name]]$variables
+    tables <- res$data
+    for (name in names(tables)) {
+      data <- tables[[name]]$data
+      variables <- tables[[name]]$variables
 
       # make sure every variable has a column (records do not have a field when there is no value for it)
       tbl <- NULL

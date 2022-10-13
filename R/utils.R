@@ -2,7 +2,7 @@
 #' @keywords internal
 .reportListMetrics <- function(results){
   if (!is.null(results) && !is.null(results$total)) {
-    message("results: ", length(results$data), "/", results$total, " skip: ", results$skip, " limit: ", results$limit)
+    message("results: ", ifelse(is.null(results$found), length(results$data), results$found), "/", results$total, " skip: ", results$skip, " limit: ", results$limit)
   }
 }
 
