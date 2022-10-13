@@ -4,14 +4,14 @@
 \alias{amber.users}
 \title{Get the users}
 \usage{
-amber.users(amber, query = list(), from = 0, limit = 100, df = TRUE)
+amber.users(amber, query = list(), skip = 0, limit = 100, df = TRUE)
 }
 \arguments{
 \item{amber}{A Amber object}
 
 \item{query}{The search query}
 
-\item{from}{From item}
+\item{skip}{Number of items to skip}
 
 \item{limit}{Max number of items}
 
@@ -23,7 +23,7 @@ Get the users
 \examples{
 \dontrun{
 a <- amber.login("https://amber-demo.obiba.org")
-amber.users(a, from=0, limit=10)
+amber.users(a, skip = 0, limit = 10)
 amber.logout(a)
 }
 }

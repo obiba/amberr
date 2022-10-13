@@ -8,8 +8,11 @@ amber.case_report_export(
   amber,
   study = NULL,
   form = NULL,
+  from = NULL,
+  to = NULL,
+  pId = NULL,
   query = list(),
-  from = 0,
+  skip = 0,
   limit = 100,
   df = TRUE
 )
@@ -21,9 +24,15 @@ amber.case_report_export(
 
 \item{form}{Form identifier (name or id), optional.}
 
+\item{from}{From date (included), optional}
+
+\item{to}{To date (included), optional}
+
+\item{pId}{Patient/participant identifier}
+
 \item{query}{The search query}
 
-\item{from}{From item}
+\item{skip}{Number of items to skip}
 
 \item{limit}{Max number of items}
 
@@ -35,7 +44,7 @@ Get the case reports of one or several form(s).
 \examples{
 \dontrun{
 a <- amber.login("https://amber-demo.obiba.org")
-amber.case_report_export(a, form="61e69a22fea2df2f3108b508", from=0, limit=10)
+amber.case_report_export(a, form="61e69a22fea2df2f3108b508", skip=0, limit=10)
 amber.case_report_export(a, form="Adult trauma", query = list(revision = 7))
 amber.case_report_export(a, study="Trauma Registry")
 amber.case_report_export(a, query = list(revision = 1))

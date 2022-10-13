@@ -4,19 +4,19 @@
 #' @family users functions
 #' @param amber A Amber object
 #' @param query The search query
-#' @param from From item
+#' @param skip Number of items to skip
 #' @param limit Max number of items
 #' @param df Return a data.frame (default is TRUE)
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
-#' amber.users(a, from=0, limit=10)
+#' amber.users(a, skip = 0, limit = 10)
 #' amber.logout(a)
 #' }
 #' @export
 #' @import dplyr
-amber.users <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
-  query$`$skip` <- from
+amber.users <- function(amber, query=list(), skip = 0, limit = 100, df = TRUE) {
+  query$`$skip` <- skip
   query$`$limit` <- limit
   res <- .get(amber, "user", query = query)
   .reportListMetrics(res)
@@ -80,19 +80,19 @@ amber.user <- function(amber, id) {
 #' @family users functions
 #' @param amber A Amber object
 #' @param query The search query
-#' @param from From item
+#' @param skip Number of items to skip
 #' @param limit Max number of items
 #' @param df Return a data.frame (default is TRUE)
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
-#' amber.groups(a, from=0, limit=10)
+#' amber.groups(a, skip = 0, limit = 10)
 #' amber.logout(a)
 #' }
 #' @export
 #' @import dplyr
-amber.groups <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
-  query$`$skip` <- from
+amber.groups <- function(amber, query=list(), skip = 0, limit = 100, df = TRUE) {
+  query$`$skip` <- skip
   query$`$limit` <- limit
   res <- .get(amber, "group", query = query)
   .reportListMetrics(res)

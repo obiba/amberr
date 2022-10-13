@@ -5,19 +5,19 @@
 #' @param amber A Amber object
 #' @param study Study name or identifier, optional
 #' @param query The search query
-#' @param from From item
+#' @param skip Number of items to skip
 #' @param limit Max number of items
 #' @param df Return a data.frame (default is TRUE)
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
 #' amber.forms(a)
-#' amber.forms(a, study="Trauma Registry", from=0, limit=10)
+#' amber.forms(a, study="Trauma Registry", skip = 0, limit = 10)
 #' amber.logout(a)
 #' }
 #' @export
 #' @import dplyr
-amber.forms <- function(amber, study = NULL, query=list(), from=0, limit=100, df = TRUE) {
+amber.forms <- function(amber, study = NULL, query=list(), skip = 0, limit = 100, df = TRUE) {
   if (!is.null(study)) {
     studyObj <- amber.study(amber, study)
     if (!is.null(studyObj)) {
@@ -26,7 +26,7 @@ amber.forms <- function(amber, study = NULL, query=list(), from=0, limit=100, df
       stop("No such study with ID or name: ", study, call. = FALSE)
     }
   }
-  query$`$skip` <- from
+  query$`$skip` <- skip
   query$`$limit` <- limit
   res <- .get(amber, "form", query = query)
   .reportListMetrics(res)
@@ -97,13 +97,13 @@ amber.form <- function(amber, id, study = NULL, query=list()) {
 #' @param study Study identifier (name or id), optional.
 #' @param form Form identifier (name or id), optional.
 #' @param query The search query
-#' @param from From item
+#' @param skip Number of items to skip
 #' @param limit Max number of items
 #' @param df Return a data.frame (default is TRUE)
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")
-#' amber.form_revisions(a, form="61e69a22fea2df2f3108b508", from=0, limit=10)
+#' amber.form_revisions(a, form="61e69a22fea2df2f3108b508", skip = 0, limit = 10)
 #' amber.form_revisions(a, form="Adult trauma")
 #' amber.form_revisions(a, study="Trauma Registry", query = list(revision = 1))
 #' amber.form_revisions(a, query = list(revision = 1))
@@ -111,7 +111,7 @@ amber.form <- function(amber, id, study = NULL, query=list()) {
 #' }
 #' @export
 #' @import dplyr
-amber.form_revisions <- function(amber, study = NULL, form = NULL, query=list(), from=0, limit=100, df = TRUE) {
+amber.form_revisions <- function(amber, study = NULL, form = NULL, query=list(), skip = 0, limit = 100, df = TRUE) {
   if (!is.null(study)) {
     studyObj <- amber.study(amber, study)
     if (!is.null(studyObj)) {
@@ -128,7 +128,7 @@ amber.form_revisions <- function(amber, study = NULL, form = NULL, query=list(),
       stop("No such form with ID or name: ", form, call. = FALSE)
     }
   }
-  query$`$skip` <- from
+  query$`$skip` <- skip
   query$`$limit` <- limit
   res <- .get(amber, "form-revision", query = query)
   .reportListMetrics(res)

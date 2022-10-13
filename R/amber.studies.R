@@ -4,7 +4,7 @@
 #' @family studies functions
 #' @param amber A Amber object
 #' @param query The search query
-#' @param from From item
+#' @param skip Number of items to skip
 #' @param limit Max number of items
 #' @param df Return a data.frame (default is TRUE)
 #' @examples
@@ -15,8 +15,8 @@
 #' }
 #' @export
 #' @import dplyr
-amber.studies <- function(amber, query=list(), from=0, limit=100, df = TRUE) {
-  query$`$skip` <- from
+amber.studies <- function(amber, query=list(), skip=0, limit=100, df = TRUE) {
+  query$`$skip` <- skip
   query$`$limit` <- limit
   res <- .get(amber, "study", query = query)
   .reportListMetrics(res)

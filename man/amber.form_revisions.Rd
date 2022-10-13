@@ -9,7 +9,7 @@ amber.form_revisions(
   study = NULL,
   form = NULL,
   query = list(),
-  from = 0,
+  skip = 0,
   limit = 100,
   df = TRUE
 )
@@ -23,7 +23,7 @@ amber.form_revisions(
 
 \item{query}{The search query}
 
-\item{from}{From item}
+\item{skip}{Number of items to skip}
 
 \item{limit}{Max number of items}
 
@@ -35,7 +35,7 @@ Get the revisions of one or several form(s).
 \examples{
 \dontrun{
 a <- amber.login("https://amber-demo.obiba.org")
-amber.form_revisions(a, form="61e69a22fea2df2f3108b508", from=0, limit=10)
+amber.form_revisions(a, form="61e69a22fea2df2f3108b508", skip = 0, limit = 10)
 amber.form_revisions(a, form="Adult trauma")
 amber.form_revisions(a, study="Trauma Registry", query = list(revision = 1))
 amber.form_revisions(a, query = list(revision = 1))

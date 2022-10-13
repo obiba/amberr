@@ -2,7 +2,7 @@
 #' @keywords internal
 .reportListMetrics <- function(results){
   if (!is.null(results) && !is.null(results$total)) {
-    message("results: ", length(results$data), "/", results$total, " from: ", results$skip, " limit: ", results$limit)
+    message("results: ", length(results$data), "/", results$total, " skip: ", results$skip, " limit: ", results$limit)
   }
 }
 
@@ -138,4 +138,12 @@
     }
     list(variables = variables, categories = categories)
   }
+}
+
+#' @keywords internal
+.formatDate <- function(date) {
+  if (inherits(date, "POSIXt") || inherits(date, "Date"))
+    format(date, "%Y-%m-%d %H:%M")
+  else
+    date # let it go?
 }

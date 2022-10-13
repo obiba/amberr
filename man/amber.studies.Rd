@@ -4,14 +4,14 @@
 \alias{amber.studies}
 \title{Get the studies}
 \usage{
-amber.studies(amber, query = list(), from = 0, limit = 100, df = TRUE)
+amber.studies(amber, query = list(), skip = 0, limit = 100, df = TRUE)
 }
 \arguments{
 \item{amber}{A Amber object}
 
 \item{query}{The search query}
 
-\item{from}{From item}
+\item{skip}{Number of items to skip}
 
 \item{limit}{Max number of items}
 

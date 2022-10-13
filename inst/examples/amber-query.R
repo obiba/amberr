@@ -95,7 +95,11 @@ amber.case_report_form(a, form = "image", revision = NULL)
 # are collected with a study's form revision and are exported along the data dictionary
 #
 # Find all case reports
-amber.case_report_export(a)
+tables <- amber.case_report_export(a)
+# Find all case reports in a range of time
+tables <- amber.case_report_export(a, from = "2022-01-12 00:00", to = "2022-02-13")
+# Find all case reports for a participant/patient identifier
+amber.case_report_export(a, pId = "1231")
 # Export records collected with a study's form in a specific version
 amber.case_report_export(a, study = "Trauma Registry", form = "Adult trauma", query = list(revision = 6))
 # Export records collected with a study's form in all versions used

@@ -8,7 +8,7 @@ amber.forms(
   amber,
   study = NULL,
   query = list(),
-  from = 0,
+  skip = 0,
   limit = 100,
   df = TRUE
 )
@@ -20,7 +20,7 @@ amber.forms(
 
 \item{query}{The search query}
 
-\item{from}{From item}
+\item{skip}{Number of items to skip}
 
 \item{limit}{Max number of items}
 
@@ -33,7 +33,7 @@ Get the forms
 \dontrun{
 a <- amber.login("https://amber-demo.obiba.org")
 amber.forms(a)
-amber.forms(a, study="Trauma Registry", from=0, limit=10)
+amber.forms(a, study="Trauma Registry", skip = 0, limit = 10)
 amber.logout(a)
 }
 }
