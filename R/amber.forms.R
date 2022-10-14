@@ -154,7 +154,7 @@ amber.form_revisions <- function(amber, study = NULL, form = NULL, query=list(),
 
 #' Get a form revision by its form name or identifier and its revision number.
 #'
-#' @title Get a form
+#' @title Get a form revision
 #' @family studies functions
 #' @param amber A Amber object
 #' @param form Form's name or identifier

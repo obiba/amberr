@@ -2,7 +2,7 @@
 % Please edit documentation in R/amber.case-reports.R
 \name{amber.case_report_form}
 \alias{amber.case_report_form}
-\title{Get a form}
+\title{Get a case report form}
 \usage{
 amber.case_report_form(
   amber,

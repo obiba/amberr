@@ -69,7 +69,7 @@ amber.case_report_forms <- function(amber, study = NULL, form = NULL, revision =
 
 #' Get a case report form by its name or identifier and its revision number (if any).
 #'
-#' @title Get a form
+#' @title Get a case report form
 #' @family studies functions
 #' @param amber A Amber object
 #' @param id Case report form's name or identifier

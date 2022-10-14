@@ -54,6 +54,7 @@
   <span class="va">amber</span>,
   study <span class="op">=</span> <span class="cn">NULL</span>,
   form <span class="op">=</span> <span class="cn">NULL</span>,
+  revision <span class="op">=</span> <span class="cn">NULL</span>,
   query <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
   skip <span class="op">=</span> <span class="fl">0</span>,
   limit <span class="op">=</span> <span class="fl">100</span>,
@@ -73,6 +74,10 @@
 
 <dt>form</dt>
 <dd><p>Form identifier (name or id), optional.</p></dd>
+
+
+<dt>revision</dt>
+<dd><p>Revision number, optional, default is NULL (means that the case report form uses the latest form revision).</p></dd>
 
 
 <dt>query</dt>
@@ -96,6 +101,7 @@
     <div class="dont-index"><p>Other studies functions: 
 <code><a href="amber.case_report_export.html">amber.case_report_export</a>()</code>,
 <code><a href="amber.case_report_form.html">amber.case_report_form</a>()</code>,
+<code><a href="amber.case_reports.html">amber.case_reports</a>()</code>,
 <code><a href="amber.form_revisions.html">amber.form_revisions</a>()</code>,
 <code><a href="amber.form_revision.html">amber.form_revision</a>()</code>,
 <code><a href="amber.forms.html">amber.forms</a>()</code>,

@@ -2,7 +2,7 @@
 % Please edit documentation in R/amber.forms.R
 \name{amber.form_revision}
 \alias{amber.form_revision}
-\title{Get a form}
+\title{Get a form revision}
 \usage{
 amber.form_revision(amber, form, revision, study = NULL)
 }
