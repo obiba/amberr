@@ -47,6 +47,7 @@ Other studies functions:
 \code{\link{amber.case_report_export}()},
 \code{\link{amber.case_report_forms}()},
 \code{\link{amber.case_report_form}()},
+\code{\link{amber.case_reports}()},
 \code{\link{amber.form_revision}()},
 \code{\link{amber.forms}()},
 \code{\link{amber.form}()},

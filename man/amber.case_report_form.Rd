@@ -4,23 +4,36 @@
 \alias{amber.case_report_form}
 \title{Get a form}
 \usage{
-amber.case_report_form(amber, form, revision = NULL)
+amber.case_report_form(
+  amber,
+  id,
+  study = NULL,
+  form = NULL,
+  revision = NULL,
+  query = list()
+)
 }
 \arguments{
 \item{amber}{A Amber object}
 
+\item{id}{Case report form's name or identifier}
+
+\item{study}{Study identifier (name or id), optional.}
+
 \item{form}{Form's name or identifier}
 
 \item{revision}{Revision number, optional, default is NULL (means that the case report form uses the latest form revision).}
+
+\item{query}{The search query, to desambiguate form lookup by name}
 }
 \description{
-Get a case report form by its form name or identifier and its revision number (if any).
+Get a case report form by its name or identifier and its revision number (if any).
 }
 \examples{
 \dontrun{
 a <- amber.login("https://amber-demo.obiba.org")
-amber.case_report_form(a, form = "Adult trauma", revision = 10)
-amber.case_report_form(a, form = "61e69a22fea2df2f3108b508")
+amber.case_report_form(a, id = "Adult trauma - baseline", form = "Adult trauma", revision = 10)
+amber.case_report_form(a, id = "61e69a22fea2df2f3108b508")
 amber.logout(a)
 }
 }
@@ -28,6 +41,7 @@ amber.logout(a)
 Other studies functions: 
 \code{\link{amber.case_report_export}()},
 \code{\link{amber.case_report_forms}()},
+\code{\link{amber.case_reports}()},
 \code{\link{amber.form_revisions}()},
 \code{\link{amber.form_revision}()},
 \code{\link{amber.forms}()},

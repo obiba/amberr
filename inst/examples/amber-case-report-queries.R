@@ -4,13 +4,42 @@ library(amberr)
 a <- amber.login(username = "admin@obiba.org", password = "password", url = "http://localhost:3030")
 
 #
-# Case report records
-# are collected with a study's form revision and are exported along the data dictionary
+# Case report forms
+# are based on a specific or the last revision of a study's form
+#
+# Find all CRFs
+amber.case_report_forms(a)
+# Find CRFs based on a form, whatever the revision, by the form name
+amber.case_report_forms(a, form = "Adult trauma")
+# Find CRFs in a study, by the study name
+amber.case_report_forms(a, study = "Trauma Registry")
+# Find CRFs with a specific form revision (result can be NULL if there are none)
+amber.case_report_forms(a, form = "maps", revision = 1)
+# Find CRFs based on the latest form revision
+amber.case_report_forms(a, form = "image", revision = NULL)
+# Find a CRF by name
+amber.case_report_form(a, id = "Adult trauma - baseline")
+
+#
+# Case report records (raw)
+# are collected in the context of a case report form (a study's form revision)
+# and contain some technical information (state, audit of actions)
+# along with the raw data
 #
 # Find all case reports
-tables <- amber.case_report_export(a)
+amber.case_reports(a)
+# Find all case reports of a CRF
+amber.case_reports(a, caseReportForm = "Pediatric trauma - followup")
+
+#
+# Case report records (export)
+# are case report exports: data in tabular format along with the data dictionary
+# (based on the form's metadata)
+#
+# Find all case reports
+amber.case_report_export(a)
 # Find all case reports in a range of time
-tables <- amber.case_report_export(a, from = "2022-01-12 00:00", to = "2022-02-13")
+amber.case_report_export(a, from = "2022-01-12 00:00", to = "2022-02-13")
 # Find all case reports for a specific participant/patient identifier
 amber.case_report_export(a, pId = "1231")
 # Find all case reports having their identifier matching a regular expression
@@ -20,10 +49,12 @@ amber.case_report_export(a, query = list(data.PATIENT.ORIGIN_REGION = "xyz"))
 # Export records collected with a study's form in a specific version
 amber.case_report_export(a, study = "Trauma Registry", form = "Adult trauma", query = list(revision = 6))
 # Export records collected with a study's form in all versions used
-tables <- amber.case_report_export(a, study = "Trauma Registry", form = "Adult trauma")
+amber.case_report_export(a, caseReportForm = "Adult trauma - baseline")
+# Export records collected with a study's form in all versions used
+tables <- amber.case_report_export(a, study = "Trauma Registry")
 # Result contains both data and dictionary
 tables
-# Tables are named with the <form name>-<revision> pattern
+# Tables are named with the <case report form name>-<revision> pattern
 names(tables)
 # Merge datasets from different versions if relevant
 dplyr::bind_rows(lapply(tables, function (t) {

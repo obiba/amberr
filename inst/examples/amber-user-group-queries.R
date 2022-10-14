@@ -49,46 +49,5 @@ amber.study(a, id = "617e50749f542d5771d448ad")
 # Find studies created by a user
 amber.studies(a, query = list(createdBy = amber.user(a, id = "admin@obiba.org")$`_id`))
 
-#
-# Forms
-# belong to a study
-#
-# Find all forms
-amber.forms(a)
-# Find forms from a study
-amber.forms(a, study = "Trauma Registry")
-# Find first form with given name
-amber.form(a, id = "Adult trauma")
-# Find form with specified ID
-amber.form(a, id = "61e69a22fea2df2f3108b508")
-
-#
-# Form revisions
-# are revisions of a study's form
-#
-# Find all form revisions
-amber.form_revisions(a)
-# Find all revisions of a form, by its name
-amber.form_revisions(a, form = "Adult trauma")
-# Find revisions of each study's forms, by the study ID
-amber.form_revisions(a, study = "Trauma Registry", limit = 10)
-# Find revisions of each study's forms, by the study name
-amber.form_revisions(a, study = "Trauma Registry", limit = 100)
-# Find all form revisions with a specific revision number
-amber.form_revisions(a, query = list(revision = 1))
-
-#
-# Case report forms
-# are based on a specific or the last revision of a study's form
-#
-# Find CRFs based on a form, whatever the revision, by the form name
-amber.case_report_forms(a, form = "Adult trauma")
-# Find CRFs in a study, by the study name
-amber.case_report_forms(a, study = "Trauma Registry")
-# Find a CRF with a specific form revision (result can be NULL if there are none)
-amber.case_report_form(a, form = "maps", revision = 1)
-# Find a CRF based on the latest form revision
-amber.case_report_form(a, form = "image", revision = NULL)
-
 # End Amber session
 amber.logout(a)

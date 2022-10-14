@@ -8,6 +8,7 @@ amber.case_report_forms(
   amber,
   study = NULL,
   form = NULL,
+  revision = NULL,
   query = list(),
   skip = 0,
   limit = 100,
@@ -20,6 +21,8 @@ amber.case_report_forms(
 \item{study}{Study identifier (name or id), optional.}
 
 \item{form}{Form identifier (name or id), optional.}
+
+\item{revision}{Revision number, optional, default is NULL (means that the case report form uses the latest form revision).}
 
 \item{query}{The search query}
 
@@ -46,6 +49,7 @@ amber.logout(a)
 Other studies functions: 
 \code{\link{amber.case_report_export}()},
 \code{\link{amber.case_report_form}()},
+\code{\link{amber.case_reports}()},
 \code{\link{amber.form_revisions}()},
 \code{\link{amber.form_revision}()},
 \code{\link{amber.forms}()},

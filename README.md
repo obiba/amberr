@@ -28,6 +28,7 @@ Steps:
 
 Examples: 
 
-* [study and user queries](https://github.com/obiba/amberr/blob/master/inst/examples/amber-query.R)
-* [export case report records](https://github.com/obiba/amberr/blob/master/inst/examples/amber-export.R) and save them in [Opal](https://www.obiba.org/pages/products/opal/) for further analysis
+* [user and group queries](https://github.com/obiba/amberr/blob/master/inst/examples/amber-user-group-queries.R)
+* [study and form queries](https://github.com/obiba/amberr/blob/master/inst/examples/amber-study-form-queries.R)
+* [case report form and record queries](https://github.com/obiba/amberr/blob/master/inst/examples/amber-case-report-queries.R) and save them in [Opal](https://www.obiba.org/pages/products/opal/) for further analysis
 
