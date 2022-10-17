@@ -73,8 +73,10 @@ library(opalr)
 o <- opal.login(username = "administrator", password = "password", url = "https://opal-demo.obiba.org")
 #o <- opal.login(username = "administrator", password = "password", url = "http://localhost:8080")
 
+tableName <- "Adult trauma - baseline-13"
+
 # Work on a specific table
-table <- tables$`Adult trauma-7`
+table <- tables[[tableName]]
 
 # Decorate the data with the dictionary
 data <- dictionary.apply(table$data, variables = table$dictionary$variables, categories = table$dictionary$categories)
@@ -85,13 +87,50 @@ if (!opal.project_exists(o, "amber")) {
   opal.project_create(o, project = "amber", database = TRUE)
 }
 # Save table in Opal
-opal.table_save(o, data, "amber", "Adult trauma-7", id.name = "_id", overwrite = TRUE, force = TRUE)
+opal.table_save(o, data, "amber", tableName, id.name = "_id", overwrite = TRUE, force = TRUE)
 
 # [optional] Update dictionary in Opal
-opal.table_dictionary_update(o, "amber", "Adult trauma-7", table$dictionary$variables, categories = table$dictionary$categories)
+opal.table_dictionary_update(o, "amber", tableName, variables = table$dictionary$variabl, categories = table$dictionary$categories)
 
 # Get back the table from Opal
-opal.table_get(o, project = "amber", "Adult trauma-7")
+opal.table_get(o, project = "amber", tableName)
 
 # End Opal session
 opal.logout(o)
+
+#
+# Save in file using haven: SPSS, SAS etc.
+#
+# Note that using the data frame decorated with opalr::dictionary.apply (see above)
+# saves the data dictionary within the file (as much as the file format can support).
+#
+
+library(haven)
+
+# SPSS
+sav <- tempfile(fileext = ".sav")
+# rename column starting with underscore char
+data_sav <- dplyr::rename(data, id = "_id")
+# save in SPSS format
+haven::write_sav(data_sav, path = sav)
+# read back
+tbl_sav <- haven::read_sav(sav)
+tbl_sav
+attributes(tbl_sav$TRANSFER.FROM)
+attributes(data_sav$TRANSFER.FROM)
+
+# SAS
+sas <- tempfile(fileext = ".sas")
+# rename column starting with underscore char
+data_sas <- dplyr::rename(data, id = "_id")
+# rename columns with dot char
+data_sas <- dplyr::rename_with(data_sas, function(col) {
+  gsub("\\.", "_", col)
+})
+# save in SAS format
+haven::write_sas(data_sas, path = sas)
+# read back
+tbl_sas <- haven::read_sas(sas)
+tbl_sas
+attributes(tbl_sas$TRANSFER_FROM)
+attributes(data_sas$TRANSFER_FROM)
