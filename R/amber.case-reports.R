@@ -54,6 +54,7 @@ amber.case_report_forms <- function(amber, study = NULL, form = NULL, revision =
         form = val$form,
         revision = val$revision,
         state = val$state,
+        repeatPolicy = val$repeatPolicy,
         permissions_users = ifelse(is.null(val$permissions) || is.null(val$permissions$users), NA, paste(val$permissions$users, collapse = "|")),
         permissions_groups = ifelse(is.null(val$permissions) || is.null(val$permissions$groups), NA, paste(val$permissions$groups, collapse = "|")),
         createdBy = val$createdBy,
