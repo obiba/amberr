@@ -99,6 +99,17 @@ opal.table_get(o, project = "amber", tableName)
 opal.logout(o)
 
 #
+# Save in R file
+#
+
+rds <- tempfile(fileext = ".rds")
+# save in RDS format
+saveRDS(data, rds)
+# read back
+tbl_rds <- readRDS(rds)
+tbl_rds
+
+#
 # Save in file using haven: SPSS, SAS etc.
 #
 # Note that using the data frame decorated with opalr::dictionary.apply (see above)
@@ -110,7 +121,7 @@ library(haven)
 # SPSS
 sav <- tempfile(fileext = ".sav")
 # rename column starting with underscore char
-data_sav <- dplyr::rename(data, id = "_id")
+data_sav <- dplyr::rename(data, pid = "id", id = "_id")
 # save in SPSS format
 haven::write_sav(data_sav, path = sav)
 # read back
@@ -122,7 +133,7 @@ attributes(data_sav$TRANSFER.FROM)
 # SAS
 sas <- tempfile(fileext = ".sas")
 # rename column starting with underscore char
-data_sas <- dplyr::rename(data, id = "_id")
+data_sas <- dplyr::rename(data, pid = "id", id = "_id")
 # rename columns with dot char
 data_sas <- dplyr::rename_with(data_sas, function(col) {
   gsub("\\.", "_", col)
