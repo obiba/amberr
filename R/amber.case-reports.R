@@ -221,11 +221,11 @@ amber.case_reports <- function(amber, study = NULL, form = NULL, caseReportForm 
         form = val$form,
         revision = val$revision,
         state = val$state,
-        actions = jsonlite::toJSON(lapply(val$actions, function(action) {
+        actions = as.character(jsonlite::toJSON(lapply(val$actions, function(action) {
           action$`_id` <- NULL
           action
-        }), auto_unbox = TRUE),
-        data = jsonlite::toJSON(val$data, auto_unbox = TRUE),
+        }), auto_unbox = TRUE)),
+        data = as.character(jsonlite::toJSON(val$data, auto_unbox = TRUE)),
         createdBy = val$createdBy,
         createdAt = val$createdAt,
         updatedAt = val$updatedAt

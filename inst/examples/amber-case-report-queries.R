@@ -39,7 +39,7 @@ amber.case_reports(a, caseReportForm = "Pediatric trauma - followup")
 # Find all case reports
 amber.case_report_export(a)
 # Find all case reports in a range of time
-amber.case_report_export(a, from = "2022-01-12 00:00", to = "2022-02-13")
+amber.case_report_export(a, from = "2022-01-12 00:00", to = "2023-12-31")
 # Find all case reports for a specific participant/patient identifier
 amber.case_report_export(a, pId = "1231")
 # Find all case reports having their identifier matching a regular expression
@@ -83,11 +83,14 @@ data <- dictionary.apply(table$data, variables = table$dictionary$variables, cat
 data$MECHANISM.INJURY_CAUSE
 attributes(data$MECHANISM.INJURY_CAUSE)
 
+# Get the entity type from the dictionary (first variable)
+entityType <- table$dictionary$variables[1,]$entityType
+
 if (!opal.project_exists(o, "amber")) {
   opal.project_create(o, project = "amber", database = TRUE)
 }
 # Save table in Opal
-opal.table_save(o, data, "amber", tableName, id.name = "_id", overwrite = TRUE, force = TRUE)
+opal.table_save(o, data, "amber", tableName, id.name = "_id", type = entityType, overwrite = TRUE, force = TRUE)
 
 # [optional] Update dictionary in Opal
 opal.table_dictionary_update(o, "amber", tableName, variables = table$dictionary$variabl, categories = table$dictionary$categories)
@@ -139,9 +142,9 @@ data_sas <- dplyr::rename_with(data_sas, function(col) {
   gsub("\\.", "_", col)
 })
 # save in SAS format
-haven::write_sas(data_sas, path = sas)
+haven::write_xpt(data_sas, path = sas)
 # read back
-tbl_sas <- haven::read_sas(sas)
+tbl_sas <- haven::read_xpt(sas)
 tbl_sas
 attributes(tbl_sas$TRANSFER_FROM)
 attributes(data_sas$TRANSFER_FROM)

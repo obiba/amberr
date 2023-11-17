@@ -1,7 +1,7 @@
 Package: amberr
 Type: Package
 Title: 'Amber' Electronic Data Capture Client
-Version: 0.9.0
+Version: 1.0.0
 Authors@R: 
     c(person(given = "Yannick",
              family = "Marcon",
@@ -21,5 +21,5 @@ Description: 'Amber' is a server application for capturing electronic data recor
     to perform data extraction for reporting purposes.
 License: GPL-3
 BugReports: https://github.com/obiba/amberr/issues/
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 Encoding: UTF-8

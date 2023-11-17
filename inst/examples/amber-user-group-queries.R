@@ -33,21 +33,5 @@ amber.groups(a)
 amber.group(a, id = "obiba.org")
 amber.group(a, id = "615abb061799dd6a2cdbbb10")
 
-#
-# Studies
-#
-# Find all studies
-amber.studies(a)
-# Find studies with a specific name
-amber.studies(a, query = list(name = "Trauma Registry"))
-# Find studies with a specific ID (obviously there is only one)
-amber.studies(a, query = list(`_id` = "617e50749f542d5771d448ad"))
-# Find first study with a specific name
-amber.study(a, id = "Trauma Registry")
-# Find study with a specific ID
-amber.study(a, id = "617e50749f542d5771d448ad")
-# Find studies created by a user
-amber.studies(a, query = list(createdBy = amber.user(a, id = "admin@obiba.org")$`_id`))
-
 # End Amber session
 amber.logout(a)
