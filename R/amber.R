@@ -8,6 +8,7 @@
 #' @param password User password in Amber. Can be provided by "amber.password" option.
 #' @param url Amber url. Can be provided by "amber.url" option. Secure http (https) connection is required.
 #' @param opts Curl options. Can be provided by "amber.opts" option.
+#' @return An amber connection object to be used in further function calls
 #' @examples
 #' \dontrun{
 #' # login using credentials from amber.username and amber.password options
@@ -17,60 +18,70 @@
 #' }
 #' @export
 #' @import jsonlite
-amber.login <- function(username=getOption("amber.username", "anonymous"), password=getOption("amber.password", "password"), url=getOption("amber.url"), opts=getOption("amber.opts", list())) {
-  if (is.null(url)) stop("Amber url is required", call.=FALSE)
-  amberUrl <- url
-  if (startsWith(url, "http://") && !startsWith(url, "http://localhost")) {
-    stop("Connecting through secure http is required.")
-  }
-  urlObj <- httr::parse_url(amberUrl)
+amber.login <-
+  function(username = getOption("amber.username", "anonymous"),
+           password = getOption("amber.password", "password"),
+           url = getOption("amber.url"),
+           opts = getOption("amber.opts", list())) {
+    if (is.null(url))
+      stop("Amber url is required", call. = FALSE)
+    amberUrl <- url
+    if (startsWith(url, "http://") &&
+        !startsWith(url, "http://localhost")) {
+      stop("Connecting through secure http is required.")
+    }
+    urlObj <- httr::parse_url(amberUrl)
 
-  amber <- new.env(parent=globalenv())
-  # Username
-  amber$username <- username
-  # Strip trailing slash
-  amber$url <- sub("/$", "", amberUrl)
-  # Domain name
-  amber$name <- urlObj$hostname
-  # Version default value
-  amber$version <- NA
-  class(amber) <- "amber"
+    amber <- new.env(parent = globalenv())
+    # Username
+    amber$username <- username
+    # Strip trailing slash
+    amber$url <- sub("/$", "", amberUrl)
+    # Domain name
+    amber$name <- urlObj$hostname
+    # Version default value
+    amber$version <- NA
+    class(amber) <- "amber"
 
-  options <- opts
-  if (urlObj$hostname == "localhost" && length(options) == 0) {
-    options <- list(ssl_verifyhost=F, ssl_verifypeer=F)
-  }
+    options <- opts
+    if (urlObj$hostname == "localhost" && length(options) == 0) {
+      options <- list(ssl_verifyhost = F, ssl_verifypeer = F)
+    }
 
-  payload <- list(
-    strategy = "local",
-    email = username,
-    password = password
-  )
-  amber$httrConfig <- config()
-  amber$httrConfig$options <- options
+    payload <- list(strategy = "local",
+                    email = username,
+                    password = password)
+    amber$httrConfig <- config()
+    amber$httrConfig$options <- options
 
-  doAuthenticate <- function() {
-    POST(.url(amber, "authentication"), content_type("application/json"), accept("application/json"), config = amber$httrConfig,
-         body = jsonlite::toJSON(payload, auto_unbox = TRUE), .verbose())
-  }
+    doAuthenticate <- function() {
+      POST(
+        .url(amber, "authentication"),
+        content_type("application/json"),
+        accept("application/json"),
+        config = amber$httrConfig,
+        body = jsonlite::toJSON(payload, auto_unbox = TRUE),
+        .verbose()
+      )
+    }
 
-  r <- doAuthenticate()
-  if (httr::status_code(r) == 201) {
-    amber$auth <- content(r)
-  } else if (httr::status_code(r) == 400) {
-    code <- readline(prompt = 'Enter 6-digits code: ')
-    payload$token <- code
     r <- doAuthenticate()
     if (httr::status_code(r) == 201) {
       amber$auth <- content(r)
+    } else if (httr::status_code(r) == 400) {
+      code <- readline(prompt = 'Enter 6-digits code: ')
+      payload$token <- code
+      r <- doAuthenticate()
+      if (httr::status_code(r) == 201) {
+        amber$auth <- content(r)
+      } else {
+        stop("Amber authentication failed.")
+      }
     } else {
       stop("Amber authentication failed.")
     }
-  } else {
-    stop("Amber authentication failed.")
+    amber
   }
-  amber
-}
 
 #' Close connection and release resources of Amber.
 #'
@@ -84,7 +95,13 @@ amber.login <- function(username=getOption("amber.username", "anonymous"), passw
 #' @export
 amber.logout <- function(amber) {
   if (!is.null(amber$auth) && !is.null(amber$auth$accessToken)) {
-    r <- DELETE(.url(amber, "authentication"), config = amber$httrConfig, httr::add_headers(Authorization = .authzHeader(amber)), .verbose())
+    r <-
+      DELETE(
+        .url(amber, "authentication"),
+        config = amber$httrConfig,
+        httr::add_headers(Authorization = .authzHeader(amber)),
+        .verbose()
+      )
   }
   amber$auth <- NULL
 }
@@ -102,16 +119,31 @@ print.amber <- function(x, ...) {
 #' Issues a GET request to Amber for the specified resource
 #' @import httr
 #' @keywords internal
-.get <- function(amber, ..., query=list()) {
-  r <- GET(.url(amber, ...), config = amber$httrConfig, httr::add_headers(Authorization = .authzHeader(amber)), query=query, .verbose())
+.get <- function(amber, ..., query = list()) {
+  r <-
+    GET(
+      .url(amber, ...),
+      config = amber$httrConfig,
+      httr::add_headers(Authorization = .authzHeader(amber)),
+      query = query,
+      .verbose()
+    )
   .handleResponse(r)
 }
 
 #' Issues a POST form request to Amber for the specified resource
 #' @import httr
 #' @keywords internal
-.post <- function(amber, ..., query=list()) {
-  r <- POST(.url(amber, ...), config = amber$httrConfig, httr::add_headers(Authorization = .authzHeader(amber)), body=query, encode=c("form"), .verbose())
+.post <- function(amber, ..., query = list()) {
+  r <-
+    POST(
+      .url(amber, ...),
+      config = amber$httrConfig,
+      httr::add_headers(Authorization = .authzHeader(amber)),
+      body = query,
+      encode = c("form"),
+      .verbose()
+    )
   .handleResponse(r)
 }
 
@@ -119,7 +151,11 @@ print.amber <- function(x, ...) {
 .handleResponse <- function(response) {
   ct <- content(response)
   if (httr::status_code(response) >= 400) {
-    stop(ifelse(is.null(ct$message), httr::http_status(response), ct$message), call. = FALSE)
+    stop(ifelse(
+      is.null(ct$message),
+      httr::http_status(response),
+      ct$message
+    ), call. = FALSE)
   }
   ct
 }
@@ -135,7 +171,7 @@ print.amber <- function(x, ...) {
 #' Utility method to build urls. Concatenates all arguments and adds a '/' separator between each element
 #' @keywords internal
 .url <- function(amber, ...) {
-  paste(amber$url, ..., sep="/")
+  paste(amber$url, ..., sep = "/")
 }
 
 #' Verbose flag

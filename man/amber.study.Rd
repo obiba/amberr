@@ -7,9 +7,12 @@
 amber.study(amber, id)
 }
 \arguments{
-\item{amber}{A Amber object}
+\item{amber}{An Amber object}
 
 \item{id}{Study's name or identifier}
+}
+\value{
+A study object as a named list
 }
 \description{
 Get a study by name or identifier.
@@ -24,6 +27,8 @@ amber.logout(a)
 }
 \seealso{
 Other studies functions: 
+\code{\link{amber.campaigns}()},
+\code{\link{amber.campaign}()},
 \code{\link{amber.case_report_export}()},
 \code{\link{amber.case_report_forms}()},
 \code{\link{amber.case_report_form}()},
@@ -32,6 +37,12 @@ Other studies functions:
 \code{\link{amber.form_revision}()},
 \code{\link{amber.forms}()},
 \code{\link{amber.form}()},
+\code{\link{amber.interview_designs}()},
+\code{\link{amber.interview_design}()},
+\code{\link{amber.interview_export}()},
+\code{\link{amber.interviews}()},
+\code{\link{amber.participants}()},
+\code{\link{amber.participant}()},
 \code{\link{amber.studies}()}
 }
 \concept{studies functions}

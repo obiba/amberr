@@ -33,5 +33,11 @@ amber.groups(a)
 amber.group(a, id = "obiba.org")
 amber.group(a, id = "615abb061799dd6a2cdbbb10")
 
+#
+# Subjects
+#
+# Find all users and groups as subjects
+amber.subjects(a)
+
 # End Amber session
 amber.logout(a)

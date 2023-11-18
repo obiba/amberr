@@ -7,9 +7,12 @@
 amber.group(amber, id)
 }
 \arguments{
-\item{amber}{A Amber object}
+\item{amber}{An Amber object}
 
 \item{id}{Group's name or identifier}
+}
+\value{
+A group object as a named list
 }
 \description{
 Get a user by name or identifier.

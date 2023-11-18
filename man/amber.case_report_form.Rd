@@ -14,7 +14,7 @@ amber.case_report_form(
 )
 }
 \arguments{
-\item{amber}{A Amber object}
+\item{amber}{An Amber object}
 
 \item{id}{Case report form's name or identifier}
 
@@ -22,9 +22,13 @@ amber.case_report_form(
 
 \item{form}{Form's name or identifier}
 
-\item{revision}{Revision number, optional, default is NULL (means that the case report form uses the latest form revision).}
+\item{revision}{Revision number, optional, default is NULL (means that the
+case report form uses the latest form revision).}
 
 \item{query}{The search query, to desambiguate form lookup by name}
+}
+\value{
+A case report form object as a named list
 }
 \description{
 Get a case report form by its name or identifier and its revision number (if any).
@@ -39,6 +43,8 @@ amber.logout(a)
 }
 \seealso{
 Other studies functions: 
+\code{\link{amber.campaigns}()},
+\code{\link{amber.campaign}()},
 \code{\link{amber.case_report_export}()},
 \code{\link{amber.case_report_forms}()},
 \code{\link{amber.case_reports}()},
@@ -46,6 +52,12 @@ Other studies functions:
 \code{\link{amber.form_revision}()},
 \code{\link{amber.forms}()},
 \code{\link{amber.form}()},
+\code{\link{amber.interview_designs}()},
+\code{\link{amber.interview_design}()},
+\code{\link{amber.interview_export}()},
+\code{\link{amber.interviews}()},
+\code{\link{amber.participants}()},
+\code{\link{amber.participant}()},
 \code{\link{amber.studies}()},
 \code{\link{amber.study}()}
 }

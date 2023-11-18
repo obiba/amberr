@@ -7,13 +7,16 @@
 amber.form(amber, id, study = NULL, query = list())
 }
 \arguments{
-\item{amber}{A Amber object}
+\item{amber}{An Amber object}
 
 \item{id}{Form's name or identifier}
 
 \item{study}{Study name or identifier, optional}
 
 \item{query}{The search query, to desambiguate form lookup by name}
+}
+\value{
+A form object as a named list
 }
 \description{
 Get a form by name or identifier.
@@ -28,6 +31,8 @@ amber.logout(a)
 }
 \seealso{
 Other studies functions: 
+\code{\link{amber.campaigns}()},
+\code{\link{amber.campaign}()},
 \code{\link{amber.case_report_export}()},
 \code{\link{amber.case_report_forms}()},
 \code{\link{amber.case_report_form}()},
@@ -35,6 +40,12 @@ Other studies functions:
 \code{\link{amber.form_revisions}()},
 \code{\link{amber.form_revision}()},
 \code{\link{amber.forms}()},
+\code{\link{amber.interview_designs}()},
+\code{\link{amber.interview_design}()},
+\code{\link{amber.interview_export}()},
+\code{\link{amber.interviews}()},
+\code{\link{amber.participants}()},
+\code{\link{amber.participant}()},
 \code{\link{amber.studies}()},
 \code{\link{amber.study}()}
 }

@@ -7,9 +7,12 @@
 amber.user(amber, id)
 }
 \arguments{
-\item{amber}{A Amber object}
+\item{amber}{An Amber object}
 
 \item{id}{User's email or identifier}
+}
+\value{
+A user object as a named list
 }
 \description{
 Get a user by email or identifier.

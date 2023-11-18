@@ -1,8 +1,21 @@
 #' Display search result metrics
 #' @keywords internal
-.reportListMetrics <- function(results){
+.reportListMetrics <- function(results) {
   if (!is.null(results) && !is.null(results$total)) {
-    message("results: ", ifelse(is.null(results$found), length(results$data), results$found), "/", results$total, " skip: ", results$skip, " limit: ", results$limit)
+    message(
+      "results: ",
+      ifelse(
+        is.null(results$found),
+        length(results$data),
+        results$found
+      ),
+      "/",
+      results$total,
+      " skip: ",
+      results$skip,
+      " limit: ",
+      results$limit
+    )
   }
 }
 
@@ -65,7 +78,8 @@
       unit[i] <- .nullToNA(var$unit)
       referencedEntityType[i] <- .nullToNA(var$referencedEntityType)
       mimeType[i] <- .nullToNA(var$mimeType)
-      repeatable[i] <- ifelse(is.null(var$isRepeatable), FALSE, var$isRepeatable)
+      repeatable[i] <-
+        ifelse(is.null(var$isRepeatable), FALSE, var$isRepeatable)
       occurrenceGroup[i] <- .nullToNA(var$occurrenceGroup)
       index[i] <- ifelse(is.null(var$index), i, var$index)
 
@@ -91,7 +105,8 @@
         for (j in 1:catn) {
           cat <- var$categories[[j]]
           cat.name[j] <- cat$name
-          cat.missing[j] <- ifelse(!is.null(cat$isMissing), cat$isMissing, FALSE)
+          cat.missing[j] <-
+            ifelse(!is.null(cat$isMissing), cat$isMissing, FALSE)
           if (!is.null(cat$attributes)) {
             for (attribute in cat$attributes) {
               key <- toAttributeKey(attribute)
@@ -105,10 +120,13 @@
           }
         }
 
-        lg <- length(categories.name) # original length before appending
-        categories.variable <- append(categories.variable, rep(var$name, catn))
+        lg <-
+          length(categories.name) # original length before appending
+        categories.variable <-
+          append(categories.variable, rep(var$name, catn))
         categories.name <- append(categories.name, cat.name)
-        categories.missing <- append(categories.missing, cat.missing)
+        categories.missing <-
+          append(categories.missing, cat.missing)
         for (col in names(cat.attributes)) {
           if (!(col %in% names(categories.attributes))) {
             # init with NAs
@@ -116,23 +134,45 @@
           } else {
             # complete with NAs
             times <- lg - length(categories.attributes[[col]])
-            categories.attributes[[col]] <- append(categories.attributes[[col]], rep(NA, times))
+            categories.attributes[[col]] <-
+              append(categories.attributes[[col]], rep(NA, times))
           }
-          categories.attributes[[col]] <- append(categories.attributes[[col]], cat.attributes[[col]])
+          categories.attributes[[col]] <-
+            append(categories.attributes[[col]], cat.attributes[[col]])
         }
       }
     }
 
     # build output data frames
-    variables <- data.frame(name, entityType, valueType, unit, referencedEntityType, mimeType, repeatable, occurrenceGroup, index, stringsAsFactors = FALSE)
+    variables <-
+      data.frame(
+        name,
+        entityType,
+        valueType,
+        unit,
+        referencedEntityType,
+        mimeType,
+        repeatable,
+        occurrenceGroup,
+        index,
+        stringsAsFactors = FALSE
+      )
     for (col in names(variables.attributes)) {
       variables[[col]] <- variables.attributes[[col]]
     }
-    categories <- data.frame(variable = categories.variable, name = categories.name, missing = categories.missing, stringsAsFactors = FALSE)
+    categories <-
+      data.frame(
+        variable = categories.variable,
+        name = categories.name,
+        missing = categories.missing,
+        stringsAsFactors = FALSE
+      )
     for (col in names(categories.attributes)) {
-      times <- length(categories.name) - length(categories.attributes[[col]])
-      if (times>0) {
-        categories.attributes[[col]] <- append(categories.attributes[[col]], rep(NA, times))
+      times <-
+        length(categories.name) - length(categories.attributes[[col]])
+      if (times > 0) {
+        categories.attributes[[col]] <-
+          append(categories.attributes[[col]], rep(NA, times))
       }
       categories[[col]] <- categories.attributes[[col]]
     }

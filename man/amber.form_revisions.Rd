@@ -15,7 +15,7 @@ amber.form_revisions(
 )
 }
 \arguments{
-\item{amber}{A Amber object}
+\item{amber}{An Amber object}
 
 \item{study}{Study identifier (name or id), optional.}
 
@@ -28,6 +28,9 @@ amber.form_revisions(
 \item{limit}{Max number of items}
 
 \item{df}{Return a data.frame (default is TRUE)}
+}
+\value{
+A data.frame (or a named list of raw results when 'df' is FALSE)
 }
 \description{
 Get the revisions of one or several form(s).
@@ -44,6 +47,8 @@ amber.logout(a)
 }
 \seealso{
 Other studies functions: 
+\code{\link{amber.campaigns}()},
+\code{\link{amber.campaign}()},
 \code{\link{amber.case_report_export}()},
 \code{\link{amber.case_report_forms}()},
 \code{\link{amber.case_report_form}()},
@@ -51,6 +56,12 @@ Other studies functions:
 \code{\link{amber.form_revision}()},
 \code{\link{amber.forms}()},
 \code{\link{amber.form}()},
+\code{\link{amber.interview_designs}()},
+\code{\link{amber.interview_design}()},
+\code{\link{amber.interview_export}()},
+\code{\link{amber.interviews}()},
+\code{\link{amber.participants}()},
+\code{\link{amber.participant}()},
 \code{\link{amber.studies}()},
 \code{\link{amber.study}()}
 }

@@ -22,6 +22,8 @@ amber.login(
 }
 \value{
 An Amber object
+
+An amber connection object to be used in further function calls
 }
 \description{
 Open a connection with Amber and returns an Amber object.  When the two-factor

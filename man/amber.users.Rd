@@ -7,7 +7,7 @@
 amber.users(amber, query = list(), skip = 0, limit = 100, df = TRUE)
 }
 \arguments{
-\item{amber}{A Amber object}
+\item{amber}{An Amber object}
 
 \item{query}{The search query}
 
@@ -16,6 +16,9 @@ amber.users(amber, query = list(), skip = 0, limit = 100, df = TRUE)
 \item{limit}{Max number of items}
 
 \item{df}{Return a data.frame (default is TRUE)}
+}
+\value{
+A data.frame (or a named list of raw results when 'df' is FALSE)
 }
 \description{
 Get the users
