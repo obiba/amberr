@@ -64,3 +64,92 @@ dplyr::bind_rows(lapply(tables[startsWith(names(tables), "treocapa_lt-treocapa")
 
 # End Amber session
 amber.logout(a)
+
+#
+# Save interview records in Opal
+#
+library(opalr)
+
+# Start Opal session
+o <- opal.login(username = "administrator", password = "password", url = "https://opal-demo.obiba.org")
+#o <- opal.login(username = "administrator", password = "password", url = "http://localhost:8080")
+
+tableName <- "treocapa_lt-treocapa-37"
+
+# Work on a specific table
+table <- tables[[tableName]]
+
+# Decorate the data with the dictionary
+data <- dictionary.apply(table$data, variables = table$dictionary$variables, categories = table$dictionary$categories)
+data$PLAY.COPY1
+attributes(data$PLAY.COPY1)
+
+# Get the entity type from the dictionary (first variable)
+entityType <- table$dictionary$variables[1,]$entityType
+
+if (!opal.project_exists(o, "amber")) {
+  opal.project_create(o, project = "amber", database = TRUE)
+}
+# Save table in Opal
+opal.table_save(o, data, "amber", tableName, id.name = "_id", type = entityType, overwrite = TRUE, force = TRUE)
+
+# [optional] Update dictionary in Opal
+opal.table_dictionary_update(o, "amber", tableName, variables = table$dictionary$variables, categories = table$dictionary$categories)
+
+# Get back the table from Opal
+opal.table_get(o, project = "amber", tableName)
+
+# End Opal session
+opal.logout(o)
+
+#
+# Save in R file
+#
+
+rds <- tempfile(fileext = ".rds")
+# save in RDS format
+saveRDS(data, rds)
+# read back
+tbl_rds <- readRDS(rds)
+tbl_rds
+
+#
+# Save in file using haven: SPSS, SAS etc.
+#
+# Note that using the data frame decorated with opalr::dictionary.apply (see above)
+# saves the data dictionary within the file (as much as the file format can support).
+#
+
+library(haven)
+
+# SPSS
+sav <- tempfile(fileext = ".sav")
+# rename column starting with underscore char
+data_sav <- dplyr::rename(data, id = "_id")
+# save in SPSS format
+haven::write_sav(data_sav, path = sav)
+# read back
+tbl_sav <- haven::read_sav(sav)
+tbl_sav
+attributes(tbl_sav$PLAY.COPY1)
+attributes(data_sav$PLAY.COPY1)
+
+# SAS
+sas <- tempfile(fileext = ".sas")
+# rename column starting with underscore char
+data_sas <- dplyr::rename(data, id = "_id")
+# rename columns with dot char
+data_sas <- dplyr::rename_with(data_sas, function(col) {
+  gsub("\\.", "_", col)
+})
+# shorten some variable names for SAS
+data_sas <- dplyr::rename_with(data_sas, function(col) {
+  gsub("CARE_ADMISSIONS", "CARE_ADM", col)
+})
+# save in SAS format
+haven::write_xpt(data_sas, path = sas)
+# read back
+tbl_sas <- haven::read_xpt(sas)
+tbl_sas
+attributes(tbl_sas$PLAY_COPY1)
+attributes(data_sas$PLAY_COPY1)
