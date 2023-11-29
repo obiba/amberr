@@ -147,6 +147,21 @@ print.amber <- function(x, ...) {
   .handleResponse(r)
 }
 
+#' Issues a DELETE request to Amber for the specified resource
+#' @import httr
+#' @keywords internal
+.delete <- function(amber, ..., query = list()) {
+  r <-
+    DELETE(
+      .url(amber, ...),
+      config = amber$httrConfig,
+      httr::add_headers(Authorization = .authzHeader(amber)),
+      query = query,
+      .verbose()
+    )
+  .handleResponse(r)
+}
+
 #' @keywords internal
 .handleResponse <- function(response) {
   ct <- content(response)
