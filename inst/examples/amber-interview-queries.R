@@ -17,7 +17,11 @@ amber.campaigns(a)
 amber.campaigns(a, study = "liftup")
 amber.campaign(a, id = "base")
 
+# Find all participants
 amber.participants(a)
+# Find participants that are not eligible
+amber.participants(a, valid = FALSE)
+# Find participants from specific study or campaign
 amber.participants(a, study = "liftup")
 amber.participants(a, campaign = "base")
 amber.participant(a, "9WVV87")
@@ -31,7 +35,9 @@ amber.participant(a, "9WVV87")
 # Find all interviews
 amber.interviews(a)
 # Find all completed interviews
-amber.interviews(a, query = list(state = "completed"))
+amber.interviews(a, state = "completed")
+# Find all interviews in progress which participant is not valid any more
+amber.interviews(a, state = "in_progress", participantValid = FALSE)
 # Find all interviews of an interview designs
 amber.interviews(a, interviewDesign = "treocapa_lt")
 

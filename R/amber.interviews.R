@@ -283,7 +283,8 @@ amber.campaign <-
 #' @param interviewDesign Interview design identifier (name or id), optional.
 #' @param campaign Campaign identifier (name or id), optional.
 #' @param code Participant interview code, optional
-#' @param identifier Patient/participant identifier, optional
+#' @param identifier Participant identifier, optional
+#' @param valid Participant is valid (logical): active and in the valid date range
 #' @param query A search query
 #' @param skip Number of items to skip
 #' @param limit Max number of items
@@ -317,6 +318,7 @@ amber.participants <-
            campaign = NULL,
            code = NULL,
            identifier = NULL,
+           valid = NULL,
            query = list(),
            skip = 0,
            limit = 100,
@@ -358,6 +360,9 @@ amber.participants <-
     if (!is.null(code)) {
       query$code <- code
     }
+    if (!is.null(valid)) {
+      query$valid <- ifelse(isTRUE(valid), 'true', 'false')
+    }
     query$`$skip` <- skip
     query$`$limit` <- limit
     res <- .get(amber, "participant", query = query)
@@ -376,6 +381,7 @@ amber.participants <-
           data = as.character(jsonlite::toJSON(val$data, auto_unbox = TRUE)),
           validFrom = val$validFrom,
           validUntil = val$validUntil,
+          valid = val$valid,
           initialContact = val$initialContact,
           initAt = val$initAt,
           reminders = as.character(jsonlite::toJSON(val$reminders, auto_unbox = TRUE)),
@@ -474,7 +480,9 @@ amber.participant <-
 #' @param from From date (included), optional
 #' @param to To date (included), optional
 #' @param code Participant interview code, optional
-#' @param identifier Patient/participant identifier, optional
+#' @param identifier Participant identifier, optional
+#' @param state State of the interview: 'initiated', 'in_progress', 'completed'
+#' @param participantValid Participant is valid (logical): active and in the valid date range
 #' @param query A search query
 #' @param skip Number of items to skip
 #' @param limit Max number of items
@@ -516,6 +524,8 @@ amber.interviews <-
            to = NULL,
            code = NULL,
            identifier = NULL,
+           state = NULL,
+           participantValid = NULL,
            query = list(),
            skip = 0,
            limit = 100,
@@ -563,6 +573,12 @@ amber.interviews <-
     if (!is.null(code)) {
       query$code <- code
     }
+    if (!is.null(state)) {
+      query$state <- state
+    }
+    if (!is.null(participantValid)) {
+      query$participantValid <- ifelse(isTRUE(participantValid), 'true', 'false')
+    }
     query$`$skip` <- skip
     query$`$limit` <- limit
     res <- .get(amber, "interview", query = query)
@@ -578,6 +594,7 @@ amber.interviews <-
           study = val$study,
           campaign = val$campaign,
           state = val$state,
+          participantValid = val$participantValid,
           data = as.character(jsonlite::toJSON(val$data, auto_unbox = TRUE)),
           steps = as.character(jsonlite::toJSON(val$steps, auto_unbox = TRUE)),
           createdBy = val$createdBy,

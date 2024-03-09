@@ -13,6 +13,8 @@ amber.interviews(
   to = NULL,
   code = NULL,
   identifier = NULL,
+  state = NULL,
+  participantValid = NULL,
   query = list(),
   skip = 0,
   limit = 100,
@@ -34,7 +36,11 @@ amber.interviews(
 
 \item{code}{Participant interview code, optional}
 
-\item{identifier}{Patient/participant identifier, optional}
+\item{identifier}{Participant identifier, optional}
+
+\item{state}{State of the interview: 'initiated', 'in_progress', 'completed'}
+
+\item{participantValid}{Participant is valid (logical): active and in the valid date range}
 
 \item{query}{A search query}
 

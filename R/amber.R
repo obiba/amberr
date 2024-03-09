@@ -87,6 +87,7 @@ amber.login <-
 #'
 #' @title Close connection with Amber
 #' @param amber An Amber object
+#' @return No value
 #' @examples
 #' \dontrun{
 #' a <- amber.login("https://amber-demo.obiba.org")

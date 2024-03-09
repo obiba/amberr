@@ -11,6 +11,7 @@ amber.participants(
   campaign = NULL,
   code = NULL,
   identifier = NULL,
+  valid = NULL,
   query = list(),
   skip = 0,
   limit = 100,
@@ -28,7 +29,9 @@ amber.participants(
 
 \item{code}{Participant interview code, optional}
 
-\item{identifier}{Patient/participant identifier, optional}
+\item{identifier}{Participant identifier, optional}
+
+\item{valid}{Participant is valid (logical): active and in the valid date range}
 
 \item{query}{A search query}
 

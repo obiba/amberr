@@ -9,6 +9,9 @@ amber.logout(amber)
 \arguments{
 \item{amber}{An Amber object}
 }
+\value{
+No value
+}
 \description{
 Close connection and release resources of Amber.
 }
