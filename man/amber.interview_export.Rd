@@ -14,6 +14,8 @@ amber.interview_export(
   completed = NULL,
   code = NULL,
   identifier = NULL,
+  state = NULL,
+  participantValid = NULL,
   query = list(),
   skip = 0,
   limit = 100,
@@ -38,6 +40,10 @@ amber.interview_export(
 \item{code}{Participant interview code}
 
 \item{identifier}{Patient/participant study identifier}
+
+\item{state}{State of the interview: 'initiated', 'in_progress', 'completed'}
+
+\item{participantValid}{Participant is valid (logical): active and in the valid date range}
 
 \item{query}{The search query}
 

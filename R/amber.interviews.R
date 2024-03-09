@@ -622,6 +622,8 @@ amber.interviews <-
 #' @param completed When TRUE export data from completed interviews only (default is NULL)
 #' @param code Participant interview code
 #' @param identifier Patient/participant study identifier
+#' @param state State of the interview: 'initiated', 'in_progress', 'completed'
+#' @param participantValid Participant is valid (logical): active and in the valid date range
 #' @param query The search query
 #' @param skip Number of items to skip
 #' @param limit Max number of items
@@ -684,6 +686,8 @@ amber.interview_export <-
            completed = NULL,
            code = NULL,
            identifier = NULL,
+           state = NULL,
+           participantValid = NULL,
            query = list(),
            skip = 0,
            limit = 100,
@@ -727,6 +731,12 @@ amber.interview_export <-
     }
     if (isTRUE(completed)) {
       query$state <- "completed"
+    }
+    if (!is.null(state)) {
+      query$state <- state
+    }
+    if (!is.null(participantValid)) {
+      query$participantValid <- ifelse(isTRUE(participantValid), 'true', 'false')
     }
     if (!is.null(code)) {
       query$code <- code
