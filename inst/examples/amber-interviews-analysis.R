@@ -3,19 +3,39 @@ library(amberr)
 # Start Amber session
 a <- amber.login(username = "<username>", password = "<password>", url = "https://treocapa-lt.inserm.fr/api")
 
-# Extract interviews from a study (filter by campaign can be added)
+# Extract all interviews from a study (filter by campaign can be added)
 itws <- amber.interviews(a, study = "LIFTUP")
+# Extract completed interviews from specific study
+itws <- amber.interviews(a, study = "LIFTUP", query = list(state='completed'))
+
+# exclude interviews from the test campaigns
+itws <- itws %>%
+  filter(!is.na(identifier))
 
 # End Amber session
 amber.logout(a)
+
+
+library(lubridate)
+
+# Count the completed interviews per month
+itws %>%
+  # merge updated date with explicit filling date
+  mutate(fillingDate = ifelse(is.na(fillingDate), updatedAt, fillingDate)) %>%
+  # convert character to date type
+  mutate(fillingDate = as.Date(fillingDate)) %>%
+  # extract the month from the date
+  mutate(month = floor_date(fillingDate, "month")) %>%
+  # group by the extracted month and count
+  group_by(month) %>%
+  summarize(count = n())
+
 
 library(dplyr)
 library(tidyjson)
 
 # Extract interview steps
 steps <- itws %>%
-  # exclude interviews from the test campaign
-  filter(!is.na(identifier)) %>%
   # select some columns: 'steps' contains collected data for each step
   select(code, identifier, steps) %>%
   # change steps type to JSON type

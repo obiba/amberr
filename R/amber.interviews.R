@@ -599,7 +599,8 @@ amber.interviews <-
           steps = as.character(jsonlite::toJSON(val$steps, auto_unbox = TRUE)),
           createdBy = val$createdBy,
           createdAt = val$createdAt,
-          updatedAt = val$updatedAt
+          updatedAt = val$updatedAt,
+          fillingDate = val$fillingDate
         )
       })
       dplyr::bind_rows(vals)
