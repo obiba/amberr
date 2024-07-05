@@ -27,8 +27,8 @@ amber.logout(a)
 }
 \seealso{
 Other users functions: 
-\code{\link{amber.groups}()},
 \code{\link{amber.group}()},
+\code{\link{amber.groups}()},
 \code{\link{amber.users}()}
 }
 \concept{users functions}

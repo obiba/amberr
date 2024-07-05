@@ -32,22 +32,22 @@ amber.logout(a)
 }
 \seealso{
 Other studies functions: 
-\code{\link{amber.campaigns}()},
 \code{\link{amber.campaign}()},
+\code{\link{amber.campaigns}()},
 \code{\link{amber.case_report_export}()},
-\code{\link{amber.case_report_forms}()},
 \code{\link{amber.case_report_form}()},
+\code{\link{amber.case_report_forms}()},
 \code{\link{amber.case_reports}()},
-\code{\link{amber.form_revisions}()},
-\code{\link{amber.form_revision}()},
-\code{\link{amber.forms}()},
 \code{\link{amber.form}()},
-\code{\link{amber.interview_designs}()},
+\code{\link{amber.form_revision}()},
+\code{\link{amber.form_revisions}()},
+\code{\link{amber.forms}()},
 \code{\link{amber.interview_design}()},
+\code{\link{amber.interview_designs}()},
 \code{\link{amber.interview_export}()},
 \code{\link{amber.interviews}()},
-\code{\link{amber.participants}()},
 \code{\link{amber.participant}()},
+\code{\link{amber.participants}()},
 \code{\link{amber.study}()}
 }
 \concept{studies functions}
