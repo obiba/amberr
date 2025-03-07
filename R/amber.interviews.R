@@ -603,8 +603,13 @@ amber.interviews <-
           fillingDate = val$fillingDate
         )
       })
-      dplyr::bind_rows(vals)
-
+      itws <- dplyr::bind_rows(vals)
+      # legacy, before filling date was defined
+      itws %>%
+        # merge updated date with explicit filling date
+        mutate(fillingDate = ifelse(is.na(.data$fillingDate), .data$updatedAt, .data$fillingDate)) %>%
+        # convert character to date type
+        mutate(fillingDate = as.Date(.data$fillingDate))
     } else {
       res
     }
@@ -775,4 +780,146 @@ amber.interview_export <-
     } else {
       res
     }
+  }
+
+#' Get the steps of the provided interviews.
+#'
+#' @title Get the steps of interview records
+#' @family studies functions
+#' @param interviews The data frame of interviews
+#' @return A data.frame of steps
+#' @examples
+#' \dontrun{
+#' a <- amber.login("https://amber-demo.obiba.org")
+#'
+#' # Find interview records of a study
+#' itws <- amber.interviews(a, study = "Trauma Registry")
+#'
+#' # Get steps
+#' steps <- amber.interviews_steps(itws)
+#'
+#' amber.logout(a)
+#' }
+#' @export
+#' @import dplyr
+#' @importFrom tidyjson as.tbl_json gather_array spread_all
+amber.interviews_steps <-
+  function(interviews) {
+    if (is.null(interviews)) {
+      stop("No interviews provided")
+    }
+    # Extract interview steps
+    steps <- interviews %>%
+      # exclude interviews from the test campaign
+      filter(!is.na(.data$identifier)) %>%
+      # select some columns: 'steps' contains collected data for each step
+      select(.data$code, .data$identifier, .data$steps) %>%
+      # change steps type to JSON type
+      as.tbl_json(json.column = "steps") %>%
+      # steps is a JSON array, then make a row per step
+      gather_array %>%
+      # make columns per step values (first level only)
+      spread_all(recursive = F) %>%
+      # select some columns
+      select(.data$code, .data$identifier, .data$name, .data$state)
+    steps
+  }
+
+
+#' Get the data of the steps with a specific name.
+#'
+#' @title Get the data of some interviews step
+#' @family studies functions
+#' @param steps The data frame of interviews steps
+#' @param step_name The name of the step
+#' @return A data.frame of step data
+#' @examples
+#' \dontrun{
+#' a <- amber.login("https://amber-demo.obiba.org")
+#'
+#' # Find interview records of a study
+#' itws <- amber.interviews(a, study = "Trauma Registry")
+#'
+#' # Get steps
+#' steps <- amber.interviews_steps(itws)
+#'
+#' # Get data of the step with name CONSENT
+#' consent_data <- amber.interviews_step_data(steps, 'CONSENT')
+#'
+#' # Count per agreement values (possible values are 0 or 1)
+#' consent_data %>% count(AGREEMENT)
+#'
+#' amber.logout(a)
+#' }
+#' @export
+#' @import dplyr
+#' @importFrom tidyjson enter_object spread_all
+amber.interviews_step_data <-
+  function(steps, step_name) {
+    if (is.null(steps)) {
+      stop("No interviews steps provided")
+    }
+    data <- steps %>%
+      # filter steps
+      filter(.data$name == step_name) %>%
+      # in the step object, use the data object (contains the answers of the participant)
+      enter_object(data) %>%
+      # make one column per consent data
+      spread_all
+    data
+  }
+
+#' Get the actions of the steps with a specific name.
+#'
+#' @title Get the actions of some interviews step
+#' @family studies functions
+#' @param steps The data frame of interviews steps
+#' @param step_name The name of the step
+#' @return A data.frame of step data
+#' @examples
+#' \dontrun{
+#' a <- amber.login("https://amber-demo.obiba.org")
+#'
+#' # Find interview records of a study
+#' itws <- amber.interviews(a, study = "Trauma Registry")
+#'
+#' # Get steps
+#' steps <- amber.interviews_steps(itws)
+#'
+#' # Get actions of the step with name QUESTIONNAIRE
+#' actions <- amber.interviews_step_actions(steps, 'QUESTIONNAIRE')
+#'
+#' # Count the number of completed QUESTIONNAIRE steps ('complete' action type)
+#' # in completed interviews ('completed' state)
+#' actions %>% filter(state == 'completed', type == 'complete') %>% count()
+#'
+#' amber.logout(a)
+#' }
+#' @export
+#' @import dplyr
+#' @importFrom tidyjson enter_object gather_array spread_all
+amber.interviews_step_actions <-
+  function(steps, step_name) {
+    if (is.null(steps)) {
+      stop("No interviews steps provided")
+    }
+    actions <- steps %>%
+      # filter steps
+      filter(.data$name == step_name) %>%
+      # in the step object, use the actions array (contains the actions done on this step)
+      enter_object(actions) %>%
+      # make one row per action
+      gather_array %>%
+      # make one column per action's value
+      # note: there is a 'user' column if the action is performed by a registered user (= not the participant)
+      # note: type possible values are
+      #   * 'init' (step without data),
+      #   * 'pause' (step is paused),
+      #   * 'complete' (step is completed),
+      #   * 'invalid' (step is to be skipped (condition not satisfied)),
+      #   * 'reopen' (step is forced to be reopened, by investigator)
+      spread_all %>%
+      # Turn action timestamp into date
+      mutate(timestamp = as.POSIXct(.data$timestamp / 1000, origin = "1970-01-01"))
+    actions
   }

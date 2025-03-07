@@ -83,6 +83,9 @@ Other studies functions:
 \code{\link{amber.interview_designs}()},
 \code{\link{amber.interview_export}()},
 \code{\link{amber.interviews}()},
+\code{\link{amber.interviews_step_actions}()},
+\code{\link{amber.interviews_step_data}()},
+\code{\link{amber.interviews_steps}()},
 \code{\link{amber.participant}()},
 \code{\link{amber.studies}()},
 \code{\link{amber.study}()}
