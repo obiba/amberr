@@ -1,7 +1,7 @@
 # Amber R
 
 [![Build Status](https://app.travis-ci.com/obiba/amberr.svg?branch=master)](https://app.travis-ci.com/github/obiba/amberr)
-[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/amberr)](https://cran.r-project.org/package=amberr)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/amberr)](https://cran.r-project.org/package=amberr)
 
 R package for accessing [OBiBa/Amber](https://www.obiba.org/pages/products/amber/) web services:
 
