@@ -6,3 +6,4 @@
 vignettes
 ^CRAN-SUBMISSION$
 ^cran-comments\.md$
+^.github$
