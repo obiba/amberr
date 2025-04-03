@@ -486,6 +486,7 @@ amber.participant <-
 #' @param query A search query
 #' @param skip Number of items to skip
 #' @param limit Max number of items
+#' @param mergeUpdatedFillingDates Set the last update date as being the filling date, if filling date is empty (default is FALSE).
 #' @param df Return a data.frame (default is TRUE)
 #' @return A data.frame (or a named list of raw results when 'df' is FALSE)
 #' @examples
@@ -529,6 +530,7 @@ amber.interviews <-
            query = list(),
            skip = 0,
            limit = 100,
+           mergeUpdatedFillingDates = FALSE,
            df = TRUE) {
     if (!is.null(study)) {
       studyObj <- amber.study(amber, study)
@@ -604,10 +606,12 @@ amber.interviews <-
         )
       })
       itws <- dplyr::bind_rows(vals)
-      # legacy, before filling date was defined
+      if (mergeUpdatedFillingDates) {
+        itws <- itws %>%
+          # merge updated date with explicit filling date
+          mutate(fillingDate = ifelse(is.na(.data$fillingDate), .data$updatedAt, .data$fillingDate))
+      }
       itws %>%
-        # merge updated date with explicit filling date
-        mutate(fillingDate = ifelse(is.na(.data$fillingDate), .data$updatedAt, .data$fillingDate)) %>%
         # convert character to date type
         mutate(fillingDate = as.Date(.data$fillingDate))
     } else {
