@@ -23,6 +23,7 @@ Description: 'Amber' is a server application for capturing electronic data recor
     purposes.
 License: GPL-3
 URL: https://github.com/obiba/amberr/,
+    https://www.obiba.org/amberr/,
     https://www.obiba.org/pages/products/amber/
 BugReports: https://github.com/obiba/amberr/issues/
 RoxygenNote: 7.3.2
